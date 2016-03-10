@@ -18,6 +18,9 @@ package org.alicebot.ab;
         Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
         Boston, MA  02110-1301, USA.
 */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.HashMap;
 
@@ -29,6 +32,7 @@ import java.util.HashMap;
     *
 */
 public class AIMLMap extends HashMap<String, String> {
+       private static final Logger log = LoggerFactory.getLogger(AIMLMap.class);
     public String  mapName;
     String host; // for external maps
     String botid; // for external maps
@@ -81,12 +85,12 @@ public class AIMLMap extends HashMap<String, String> {
             //String[] split = key.split(" ");
             String query = mapName.toUpperCase()+" "+key;
             String response = Sraix.sraix(null, query, MagicStrings.default_map, null, host, botid, null, "0");
-            System.out.println("External "+mapName+"("+key+")="+response);
+            log.info("External " + mapName + "(" + key + ")=" + response);
             value = response;
         }
         else value = super.get(key);
         if (value == null) value = MagicStrings.default_map;
-        //System.out.println("AIMLMap get "+key+"="+value);
+        //log.info("AIMLMap get "+key+"="+value);
         return value;
     }
 
@@ -98,20 +102,20 @@ public class AIMLMap extends HashMap<String, String> {
         * @return       the value
         */
     public String put(String key, String value) {
-        //System.out.println("AIMLMap put "+key+"="+value);
+        //log.info("AIMLMap put "+key+"="+value);
         return super.put(key, value);
     }
 
 
        public  void writeAIMLMap () {
-           System.out.println("Writing AIML Map "+mapName);
+           log.info("Writing AIML Map " + mapName);
            try{
                // Create file
                FileWriter fstream = new FileWriter(bot.maps_path+"/"+mapName+".txt");
                BufferedWriter out = new BufferedWriter(fstream);
                for (String p : this.keySet()) {
                    p = p.trim();
-                   //System.out.println(p+"-->"+this.get(p));
+                   //log.info(p+"-->"+this.get(p));
                    out.write(p+":"+this.get(p).trim());
                    out.newLine();
                }
@@ -129,7 +133,7 @@ public class AIMLMap extends HashMap<String, String> {
         try {
             while ((strLine = br.readLine()) != null  && strLine.length() > 0)   {
                 String[] splitLine = strLine.split(":");
-                //System.out.println("AIMLMap line="+strLine);
+                //log.info("AIMLMap line="+strLine);
                 if (splitLine.length >= 2) {
                     cnt++;
                     if (strLine.startsWith(MagicStrings.remote_map_key)) {
@@ -137,7 +141,7 @@ public class AIMLMap extends HashMap<String, String> {
                             host = splitLine[1];
                             botid = splitLine[2];
                             isExternal = true;
-                            System.out.println("Created external map at "+host+" "+botid);
+                            log.info("Created external map at " + host + " " + botid);
                         }
                     }
                     else {
@@ -150,7 +154,7 @@ public class AIMLMap extends HashMap<String, String> {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("exception:",ex) ;
         }
         return cnt;
     }
@@ -162,7 +166,7 @@ public class AIMLMap extends HashMap<String, String> {
         */
     public int readAIMLMap (Bot bot) {
         int cnt = 0;
-        if (MagicBooleans.trace_mode) System.out.println("Reading AIML Map "+bot.maps_path+"/"+mapName+".txt");
+        if (MagicBooleans.trace_mode) log.info("Reading AIML Map " + bot.maps_path + "/" + mapName + ".txt");
         try{
             // Open the file that is the first
             // command line parameter
@@ -173,7 +177,7 @@ public class AIMLMap extends HashMap<String, String> {
                 cnt = readAIMLMapFromInputStream(fstream, bot);
                 fstream.close();
             }
-            else System.out.println(bot.maps_path+"/"+mapName+".txt not found");
+            else log.info(bot.maps_path + "/" + mapName + ".txt not found");
         }catch (Exception e){//Catch exception if any
             System.err.println("Error: " + e.getMessage());
         }

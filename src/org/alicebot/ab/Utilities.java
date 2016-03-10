@@ -19,11 +19,14 @@ package org.alicebot.ab;
         Boston, MA  02110-1301, USA.
 */
 import org.alicebot.ab.utils.CalendarUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashSet;
 
 public class Utilities {
+    private static final Logger log = LoggerFactory.getLogger(Utilities.class);
 
     /**
      * Excel sometimes adds mysterious formatting to CSV files.
@@ -66,7 +69,7 @@ public class Utilities {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("exception:", ex) ;
         }
         return contents.trim();
     }
@@ -75,7 +78,7 @@ public class Utilities {
         try {
             File file = new File(filename);
             if (file.exists()) {
-                //System.out.println("Found file "+filename);
+                //log.info("Found file "+filename);
                 FileInputStream fstream = new FileInputStream(filename);
                 // Get the object
                 contents = getFileFromInputStream(fstream) ;
@@ -84,7 +87,7 @@ public class Utilities {
         } catch (Exception e){//Catch exception if any
             System.err.println("Error: " + e.getMessage());
         }
-        //System.out.println("getFile: "+contents);
+        //log.info("getFile: "+contents);
         return contents;
     }
     public static String getCopyrightFromInputStream(InputStream in)  {
@@ -98,7 +101,7 @@ public class Utilities {
                 else copyright += "<!-- "+strLine+" -->\n";
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("exception:", ex) ;
         }
         return copyright;
     }
@@ -125,7 +128,7 @@ public class Utilities {
             System.err.println("Error: " + e.getMessage());
         }
         copyright += "<!--  -->\n";
-        //System.out.println("Copyright: "+copyright);
+        //log.info("Copyright: "+copyright);
         return copyright;
     }
 

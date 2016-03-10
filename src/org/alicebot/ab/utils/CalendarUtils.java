@@ -1,6 +1,7 @@
 package org.alicebot.ab.utils;
 
-import org.alicebot.ab.MagicBooleans;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,6 +12,7 @@ import java.util.TimeZone;
 
 public class CalendarUtils {
 
+    private static final Logger log = LoggerFactory.getLogger(CalendarUtils.class);
 	public static String formatTime(String formatString, long msSinceEpoch) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(formatString);
 		Calendar cal = Calendar.getInstance();
@@ -45,7 +47,7 @@ public class CalendarUtils {
         if (jformat == null) jformat = "EEE MMM dd HH:mm:ss zzz yyyy";
         if (locale == null) locale = Locale.US.getISO3Country();
         if (timezone == null) timezone = TimeZone.getDefault().getDisplayName();
-        //System.out.println("Format = "+format+" Locale = "+locale+" Timezone = "+timezone);
+        //log.info("Format = "+format+" Locale = "+locale+" Timezone = "+timezone);
         String dateAsString = new Date().toString();
         try {
         SimpleDateFormat simpleDateFormat =
@@ -53,8 +55,8 @@ public class CalendarUtils {
           dateAsString = simpleDateFormat.format(new Date());
         }
         catch (Exception ex) {
-            System.out.println("CalendarUtils.date Bad date: Format = "+jformat+" Locale = "+locale+" Timezone = "+timezone);
-            ex.printStackTrace();
+            log.info("CalendarUtils.date Bad date: Format = "+jformat+" Locale = "+locale+" Timezone = "+timezone);
+            log.error("exception:",ex) ;
         }
         //MagicBooleans.trace("CalendarUtils.date: "+dateAsString);
         return dateAsString;

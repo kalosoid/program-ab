@@ -20,6 +20,8 @@ package org.alicebot.ab;
 */
 
 import org.alicebot.ab.utils.JapaneseUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashMap;
@@ -29,6 +31,7 @@ import java.util.HashMap;
  *
  */
 public class Predicates extends HashMap<String, String> {
+    private static final Logger log = LoggerFactory.getLogger(Predicates.class);
     /**
      * save a predicate value
      *
@@ -81,7 +84,7 @@ public class Predicates extends HashMap<String, String> {
                 }
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("exception:", ex) ;
         }
     }
 

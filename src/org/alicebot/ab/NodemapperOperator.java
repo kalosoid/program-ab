@@ -18,12 +18,16 @@ package org.alicebot.ab;
         Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
         Boston, MA  02110-1301, USA.
 */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public class NodemapperOperator {
+    private static final Logger log = LoggerFactory.getLogger(NodemapperOperator.class);
     /**
      * number of branches from node
      *
@@ -82,7 +86,7 @@ public class NodemapperOperator {
      * @return        true or false
      */
    public static boolean containsKey(Nodemapper node, String key)  {
-       //System.out.println("containsKey: Node="+node+" Map="+node.map);
+       //log.info("containsKey: Node="+node+" Map="+node.map);
        if (node.map != null) {
            return node.map.containsKey(key) ;
        }
@@ -101,7 +105,7 @@ public class NodemapperOperator {
         Set set = keySet(node);
         Iterator iter = set.iterator();
         while (iter.hasNext()) {
-            System.out.println("" + iter.next());
+            log.info("" + iter.next());
         }
     }
 
@@ -139,7 +143,7 @@ public class NodemapperOperator {
      * @param node  Nodemapper object
      */
     public static void upgrade(Nodemapper node) {
-        //System.out.println("Upgrading "+node.id);
+        //log.info("Upgrading "+node.id);
         //node.type = MagicNumbers.hash_node_mapper;
         node.map = new HashMap<String, Nodemapper>();
         node.map.put(node.key, node.value);

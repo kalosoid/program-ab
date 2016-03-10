@@ -1,11 +1,14 @@
 package org.alicebot.ab;
 
-import junit.framework.Assert;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 
 public class ChatTest {
+    private static final Logger log = LoggerFactory.getLogger(ChatTest.class);
     Bot bot;
     Chat chatSession;
     String pairs[][] = {
@@ -279,6 +282,6 @@ public class ChatTest {
             String actual = chatSession.multisentenceRespond(request);
             assertThat(actual, containsString(expected));
         }
-        System.out.println("Passed "+pairs.length+" test cases.");
+        log.info("Passed " + pairs.length + " test cases.");
     }
 }

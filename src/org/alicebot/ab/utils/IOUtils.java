@@ -1,21 +1,16 @@
 package org.alicebot.ab.utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.nio.charset.Charset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.io.*;
 
 
 public class IOUtils {
+
+    private static final Logger log = LoggerFactory.getLogger(IOUtils.class);
 
 
 	BufferedReader reader;
@@ -68,7 +63,7 @@ public class IOUtils {
 
 
 	public static void writeOutputTextLine(String prompt, String text) {
-		System.out.println(prompt + ": " + text);
+		log.info(prompt + ": " + text);
 	}
 
 
@@ -99,7 +94,7 @@ public class IOUtils {
 
 	public static String system(String evaluatedContents, String failedString) {
 		Runtime rt = Runtime.getRuntime();
-        //System.out.println("System "+evaluatedContents);
+        //log.info("System "+evaluatedContents);
         try {
             Process p = rt.exec(evaluatedContents);
             InputStream istrm = p.getInputStream();
@@ -110,10 +105,10 @@ public class IOUtils {
             while ((data = buffrdr.readLine()) != null) {
                 result += data+"\n";
             }
-            //System.out.println("Result = "+result);
+            //log.info("Result = "+result);
             return result;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("exception:",ex) ;
             return failedString;
 
         }
@@ -121,7 +116,7 @@ public class IOUtils {
 
 	
 	public static String evalScript(String engineName, String script) throws Exception {
-        //System.out.println("evaluating "+script);
+        //log.info("evaluating "+script);
         ScriptEngineManager mgr = new ScriptEngineManager();
         ScriptEngine engine = mgr.getEngineByName("JavaScript");
 		String result = ""+engine.eval(script);

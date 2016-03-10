@@ -1,10 +1,14 @@
 package org.alicebot.ab;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Verbs {
+    private static final Logger log = LoggerFactory.getLogger(Verbs.class);
     static Set<String> es = Utilities.stringSet("sh","ch","th","ss","x");
     static Set<String> ies = Utilities.stringSet("ly","ry","ny","fy","dy","py");
     static Set<String> ring = Utilities.stringSet("be","me","re","se","ve","de","le","ce","ze","ke","te","ge","ne","pe","ue");
@@ -115,7 +119,7 @@ public class Verbs {
             String wasForm = was(verb);
             String beenForm = been(verb);
             String beingForm = being(verb);
-            System.out.println(verb+","+isForm+","+wasForm+","+beingForm+","+beenForm);
+            log.info(verb + "," + isForm + "," + wasForm + "," + beingForm + "," + beenForm);
             be.add(beForm);
             is.add(isForm);
             was.add(wasForm);

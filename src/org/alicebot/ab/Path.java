@@ -1,4 +1,7 @@
 package org.alicebot.ab;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 /* Program AB Reference AIML 2.0 implementation
         Copyright (C) 2013 ALICE A.I. Foundation
@@ -24,6 +27,7 @@ import java.util.ArrayList;
  * Linked list representation of Pattern Path and Input Path
  */
 public class Path extends ArrayList<String>{
+    private static final Logger log = LoggerFactory.getLogger(Path.class);
     public String word;
     public Path next;
     public int length;
@@ -113,7 +117,7 @@ public class Path extends ArrayList<String>{
             result += p.word+",";
         }
         if (result.endsWith(",")) result = result.substring(0, result.length()-1);
-        System.out.println(result);
+        log.info(result);
     }
 
 }

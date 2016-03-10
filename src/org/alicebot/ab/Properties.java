@@ -18,6 +18,9 @@ package org.alicebot.ab;
         Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
         Boston, MA  02110-1301, USA.
 */
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.HashMap;
 /**
@@ -25,6 +28,7 @@ import java.util.HashMap;
 */
 
 public class Properties extends HashMap<String, String> {
+    private static final Logger log = LoggerFactory.getLogger(Properties.class);
     /**
      * get the value of a bot property.
      *
@@ -57,7 +61,7 @@ public class Properties extends HashMap<String, String> {
             }
         }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            log.error("exception:",ex) ;
         }
         return cnt;
     }
@@ -69,13 +73,13 @@ public class Properties extends HashMap<String, String> {
      */
     public int getProperties (String filename) {
         int cnt = 0;
-        if (MagicBooleans.trace_mode) System.out.println("Get Properties: "+filename);
+        if (MagicBooleans.trace_mode) log.info("Get Properties: " + filename);
         try {
             // Open the file that is the first
             // command line parameter
             File file = new File(filename);
             if (file.exists()) {
-                if (MagicBooleans.trace_mode) System.out.println("Exists: "+filename);
+                if (MagicBooleans.trace_mode) log.info("Exists: " + filename);
                 FileInputStream fstream = new FileInputStream(filename);
                 // Get the object
                 cnt = getPropertiesFromInputStream(fstream);
